@@ -16,6 +16,11 @@ void uartCommand(uint8_t c) {
 	}
 }
 
+void motorPripravi() {
+	SETBIT(DDRB, PB7);
+	SETBIT(DDRB, PB6);
+}
+
 void motor0naprej(uint16_t d) {
 	uartCommand(13);
 	uartCommand(d >> 8);

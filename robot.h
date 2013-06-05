@@ -13,11 +13,14 @@ void motor0stop();
 void motor0hitrost(uint16_t h);
 void motor0moc(uint16_t m);
 
-void pavza(uint16_t i);
-void pocakajMotor();
 void motor1naprej(uint16_t d);
 void motor1nazaj(uint16_t d);
 void motor1bremza();
 void motor1stop();
 void motor1hitrost(uint16_t h);
 void motor1moc(uint16_t m);
+
+void motorPripravi();
+
+void pavza(uint16_t i);
+void pocakajMotor();
