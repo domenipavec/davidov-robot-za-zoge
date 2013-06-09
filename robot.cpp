@@ -8,89 +8,77 @@ void uartCommand(uint8_t c) {
 		} else {
 			CLEARBIT(PORTB, PB6);
 		}
-		_delay_ms(1);
+		__builtin_avr_delay_cycles(120);
 		SETBIT(PORTB, PB7);
-		_delay_ms(1);
+		__builtin_avr_delay_cycles(120);
 		CLEARBIT(PORTB, PB7);
-		_delay_ms(1);
+		__builtin_avr_delay_cycles(120);
 	}
 }
 
-void motorPripravi() {
-	SETBIT(DDRB, PB7);
+void pripravi() {
+	pavza(2000);
+	
+	// za komunikacijo
 	SETBIT(DDRB, PB6);
+	SETBIT(DDRB, PB7);
+
+	// za pwm
+	SETBIT(DDRD, PD4);
+	SETBIT(DDRD, PD5);
+
+	// nastavitev pwm timer-ja
+	TCCR1A = BIT(WGM11);
+	TCCR1B = BIT(WGM12) | BIT(WGM13) | BIT(CS10);
+
+	// gumbi
+	SETBITS(PORTC, BIT(PC3) | BIT(PC4) | BIT(PC5) | BIT(PC6) | BIT(PC7));
 }
 
-void motor0naprej(uint16_t d) {
-	uartCommand(13);
-	uartCommand(d >> 8);
-	uartCommand(d & 0xff);
+volatile uint8_t DI_LCD_INTENSITY = 0xff;
+volatile uint16_t DI_ICR1 = 0xff;
+
+void updateFrequency() {
+	uint32_t temp = DI_LCD_INTENSITY;
+	temp *= DI_ICR1;
+	temp /= 0xff;
+	ICR1 = DI_ICR1;
+	OCR1A = temp;
+	OCR1B = ICR1/2;
 }
 
-void motor0nazaj(uint16_t d) {
-	uartCommand(15);
-	uartCommand(d >> 8);
-	uartCommand(d & 0xff);
+void osvetliZaslon(uint8_t i) {
+	DI_LCD_INTENSITY = i;
+	updateFrequency();
+	SETBIT(TCCR1A, COM1A1);
 }
 
-void motor0bremza() {
-	uartCommand(5);
-	uartCommand(0);
-	uartCommand(0);
+void ugasniZaslon() {
+	CLEARBIT(TCCR1A, COM1A1);
 }
 
-void motor0stop() {
-	uartCommand(7);
-	uartCommand(0);
-	uartCommand(0);
+void pisk(uint16_t f) {
+	uint32_t temp = F_CPU;
+	temp /= f;
+	DI_ICR1 = temp;
+	updateFrequency();
+	SETBIT(TCCR1A, COM1B1);
 }
 
-void motor0hitrost(uint16_t h) {
-	uartCommand(9);
-	uartCommand(h >> 8);
-	uartCommand(h & 0xff);
+void stopPisk() {
+	CLEARBIT(TCCR1A, COM1B1);
 }
 
-void motor0moc(uint16_t m) {
-	uartCommand(11);
-	uartCommand(m >> 8);
-	uartCommand(m & 0xff);
+void motorPremik(uint8_t c, uint16_t v) {
+	uartCommand(BIT(0) | c | BIT(7));
+	uartCommand(v >> 8);
+	uartCommand(v & 0xff);
 }
 
-void motor1naprej(uint16_t d) {
-	uartCommand(14);
-	uartCommand(d >> 8);
-	uartCommand(d & 0xff);
-}
-
-void motor1nazaj(uint16_t d) {
-	uartCommand(16);
-	uartCommand(d >> 8);
-	uartCommand(d & 0xff);
-}
-
-void motor1bremza() {
-	uartCommand(6);
-	uartCommand(0);
-	uartCommand(0);
-}
-
-void motor1stop() {
-	uartCommand(8);
-	uartCommand(0);
-	uartCommand(0);
-}
-
-void motor1hitrost(uint16_t h) {
-	uartCommand(10);
-	uartCommand(h >> 8);
-	uartCommand(h & 0xff);
-}
-
-void motor1moc(uint16_t m) {
-	uartCommand(12);
-	uartCommand(m >> 8);
-	uartCommand(m & 0xff);
+void motorNastavi(uint8_t c, uint16_t v) {
+	uartCommand(c | BIT(7));
+	uartCommand(v >> 8);
+	uartCommand(v & 0xff);
 }
 
 void pavza(uint16_t i) {
@@ -99,6 +87,3 @@ void pavza(uint16_t i) {
 	}
 }
 
-void pocakajMotor() {
-	while(BITSET(PIND, PD2));
-}
