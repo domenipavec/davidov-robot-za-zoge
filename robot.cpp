@@ -8,11 +8,11 @@ void uartCommand(uint8_t c) {
 		} else {
 			CLEARBIT(PORTB, PB6);
 		}
-		__builtin_avr_delay_cycles(120);
+		__builtin_avr_delay_cycles(240);
 		SETBIT(PORTB, PB7);
-		__builtin_avr_delay_cycles(120);
+		__builtin_avr_delay_cycles(240);
 		CLEARBIT(PORTB, PB7);
-		__builtin_avr_delay_cycles(120);
+		__builtin_avr_delay_cycles(240);
 	}
 }
 
