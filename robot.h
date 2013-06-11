@@ -40,3 +40,35 @@ void pavza(uint16_t i);
 #define GUMB2 (BITCLEAR(PINC, PC5))
 #define GUMB3 (BITCLEAR(PINC, PC6))
 #define GUMB4 (BITCLEAR(PINC, PC7))
+
+inline void luc0prizgi() {
+	SETBIT(PORTB, PB4);
+}
+inline void luc0ugasni() {
+	CLEARBIT(PORTB, PB4);
+}
+inline void luc1prizgi() {
+	SETBIT(PORTB, PB3);
+}
+inline void luc1ugasni() {
+	CLEARBIT(PORTB, PB3);
+}
+inline void luc2prizgi() {
+	SETBIT(PORTB, PB2);
+}
+inline void luc2ugasni() {
+	CLEARBIT(PORTB, PB2);
+}
+inline void luc3prizgi() {
+	SETBIT(PORTB, PB1);
+}
+inline void luc3ugasni() {
+	CLEARBIT(PORTB, PB1);
+}
+inline void luc4prizgi() {
+	SETBIT(PORTB, PB0);
+}
+inline void luc4ugasni() {
+	CLEARBIT(PORTB, PB0);
+}
+

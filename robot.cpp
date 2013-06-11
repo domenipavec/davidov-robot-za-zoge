@@ -33,6 +33,9 @@ void pripravi() {
 
 	// gumbi
 	SETBITS(PORTC, BIT(PC3) | BIT(PC4) | BIT(PC5) | BIT(PC6) | BIT(PC7));
+
+	// lucke
+	SETBITS(DDRB, BIT(PB0) | BIT(PB1) | BIT(PB2) | BIT(PB3) | BIT(PB4));
 }
 
 volatile uint8_t DI_LCD_INTENSITY = 0xff;
