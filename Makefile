@@ -78,14 +78,14 @@ PROGRAMMER_MCU=m32
 
 # Name of our project
 # (use a single word, e.g. 'myproject')
-PROJECTNAME=lego_robot_demo
+PROJECTNAME=robot
 
 # Source files
 # List C/C++/Assembly source files:
 # (list all files to compile, e.g. 'a.c b.cpp as.S'):
 # Use .cc, .cpp or .C suffix for C++ files, use .S 
 # (NOT .s !!!) for assembly source code files.
-PRJSRC=main.cpp robot.cpp
+PRJSRC=main.cpp robot.cpp ./avr-cpp-lib/io.cpp ./avr-cpp-lib/lcds.cpp
 
 # additional includes (e.g. -I/path/to/mydir)
 INC=-I

@@ -1,4 +1,9 @@
-#include "bitop.h"
+#ifndef ROBOT_H
+#define ROBOT_H
+
+#include "avr-cpp-lib/bitop.h"
+#include "avr-cpp-lib/lcds.h"
+
 #include <stdint.h>
 #define F_CPU 8000000UL  // 8 MHz
     
@@ -72,3 +77,19 @@ inline void luc4ugasni() {
 	CLEARBIT(PORTB, PB0);
 }
 
+#define LCD_LOKACIJA(x,y) lcd.gotoXY((x),(y))
+#define LCD_TEKST(x) lcd.writeFlash(PSTR(x))
+#define LCD_DOMOV() lcd.command(avr_cpp_lib::LCDS::HOME)
+#define LCD_STEVILKA(x,y) lcd.write((x), (y))
+#define LCD_POCISTI() lcd.command(avr_cpp_lib::LCDS::CLEAR)
+#define LCD_KAZALEC_PRIZGI() lcd.command(avr_cpp_lib::LCDS::CURSOR_ON)
+#define LCD_KAZALEC_UTRIPANJE() lcd.command(avr_cpp_lib::LCDS::CURSOR_ON_BLINK)
+#define LCD_KAZALEC_UGASNI() lcd.command(avr_cpp_lib::LCDS::CURSOR_OFF)
+#define LCD_KAZALEC_DESNO() lcd.command(avr_cpp_lib::LCDS::CURSOR_RIGHT)
+#define LCD_KAZALEC_LEVO() lcd.command(avr_cpp_lib::LCDS::CURSOR_LEFT)
+#define LCD_UGASNI() lcd.command(avr_cpp_lib::LCDS::DISPLAY_OFF)
+#define LCD_PRIZGI() lcd.command(avr_cpp_lib::LCDS::DISPLAY_ON)
+#define LCD_PREMAKNI_DESNO() lcd.command(avr_cpp_lib::LCDS::DISPLAY_RIGHT)
+#define LCD_PREMAKNI_LEVO() lcd.command(avr_cpp_lib::LCDS::DISPLAY_LEFT)
+
+#endif

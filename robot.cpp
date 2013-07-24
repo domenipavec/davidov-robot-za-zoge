@@ -1,6 +1,13 @@
 #include "robot.h"
 #include <util/delay.h>
 
+avr_cpp_lib::LCDS lcd(avr_cpp_lib::OutputPin(&DDRD, &PORTD, PD3),
+                      avr_cpp_lib::OutputPin(&DDRD, &PORTD, PD6),
+                      avr_cpp_lib::OutputPin(&DDRD, &PORTD, PD7),
+                      avr_cpp_lib::OutputPin(&DDRC, &PORTC, PC0),
+                      avr_cpp_lib::OutputPin(&DDRC, &PORTC, PC1),
+                      avr_cpp_lib::OutputPin(&DDRC, &PORTC, PC2));
+
 void uartCommand(uint8_t c) {
 	for (int8_t i = 8; i > 0; i--) {
 		if (BITSET(c, i-1)) {
