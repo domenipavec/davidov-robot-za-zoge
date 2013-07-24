@@ -8,6 +8,7 @@
 #define F_CPU 8000000UL  // 8 MHz
     
 #include <avr/io.h>
+#include <avr/pgmspace.h>
 
 void uartCommand(uint8_t c);
 
@@ -76,6 +77,8 @@ inline void luc4prizgi() {
 inline void luc4ugasni() {
 	CLEARBIT(PORTB, PB0);
 }
+
+extern avr_cpp_lib::LCDS lcd;
 
 #define LCD_LOKACIJA(x,y) lcd.gotoXY((x),(y))
 #define LCD_TEKST(x) lcd.writeFlash(PSTR(x))
