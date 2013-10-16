@@ -95,4 +95,15 @@ extern avr_cpp_lib::LCDS lcd;
 #define LCD_PREMAKNI_DESNO() lcd.command(avr_cpp_lib::LCDS::DISPLAY_RIGHT)
 #define LCD_PREMAKNI_LEVO() lcd.command(avr_cpp_lib::LCDS::DISPLAY_LEFT)
 
+#define ADC0 0b0
+#define ADC1 0b1
+#define ADC2 0b10
+#define ADC3 0b11
+#define ADC4 0b100
+#define ADC5 0b101
+#define ADC6 0b110
+#define ADC7 0b111
+
+uint8_t preberiADC(uint8_t adc);
+
 #endif

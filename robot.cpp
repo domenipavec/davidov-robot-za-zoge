@@ -43,6 +43,10 @@ void pripravi() {
 
 	// lucke
 	SETBITS(DDRB, BIT(PB0) | BIT(PB1) | BIT(PB2) | BIT(PB3) | BIT(PB4));
+	
+	// adc
+	ADMUX = 0b01100000;
+	ADCSRA = 0b10010110;
 }
 
 volatile uint8_t DI_LCD_INTENSITY = 0xff;
@@ -97,3 +101,12 @@ void pavza(uint16_t i) {
 	}
 }
 
+uint8_t preberiADC(uint8_t adc) {
+	// adc
+	adc = (ADMUX & 0b11100000) | (adc & 0b00000111);
+	ADMUX = adc;
+	SETBIT(ADCSRA, ADSC);
+	while (BITCLEAR(ADCSRA, ADIF));
+	SETBIT(ADCSRA, ADIF);
+	return ADCH;
+}
