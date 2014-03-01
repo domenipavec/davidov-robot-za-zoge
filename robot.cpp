@@ -1,5 +1,6 @@
 #include "robot.h"
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
 avr_cpp_lib::LCDS lcd(avr_cpp_lib::OutputPin(&DDRD, &PORTD, PD3),
                       avr_cpp_lib::OutputPin(&DDRD, &PORTD, PD6),
@@ -37,6 +38,15 @@ void pripravi() {
 	// nastavitev pwm timer-ja
 	TCCR1A = BIT(WGM11);
 	TCCR1B = BIT(WGM12) | BIT(WGM13) | BIT(CS10);
+	
+	// nastavitev timer-ja za servo
+	// ctc mode, clk/64
+	TCCR0 = BIT(CS01) | BIT(CS00);
+	// pwm value
+	OCR0 = 128;
+	// both interrupts on
+	SETBIT(TIMSK, OCIE0);
+	SETBIT(TIMSK, TOIE0);
 
 	// gumbi
 	SETBITS(PORTC, BIT(PC3) | BIT(PC4) | BIT(PC5) | BIT(PC6) | BIT(PC7));
@@ -47,6 +57,13 @@ void pripravi() {
 	// adc
 	ADMUX = 0b01100000;
 	ADCSRA = 0b10010110;
+	
+	// vklopi interrupte
+	sei();
+	
+	pisk(1000);
+	pavza(100);
+	stopPisk();
 }
 
 volatile uint8_t DI_LCD_INTENSITY = 0xff;
@@ -109,4 +126,42 @@ uint8_t preberiADC(uint8_t adc) {
 	while (BITCLEAR(ADCSRA, ADIF));
 	SETBIT(ADCSRA, ADIF);
 	return ADCH;
+}
+
+static volatile uint8_t timer0Count = 10;
+static volatile uint8_t servoSetRound = 10;
+static volatile uint8_t servoPort = 0;
+
+ISR(TIMER0_COMP_vect) {
+	if (timer0Count == servoSetRound) {
+		CLEARBITS(PORTA, servoPort);
+	}
+}
+
+ISR(TIMER0_OVF_vect) {
+	timer0Count--;
+	if (timer0Count == 0) {
+		timer0Count = 10;
+		SETBITS(PORTA, servoPort);
+	}
+}
+
+void nastaviServo(const uint8_t port) {
+	CLEARBITS(DDRA, servoPort);
+	CLEARBITS(PORTA, servoPort);
+	servoPort = BIT(port);
+	SETBITS(DDRA, servoPort);
+}
+
+void lokacijaServo(uint8_t l) {
+	if (l > 240) {
+		l = 240;
+	}
+	if (l < 189) {
+		OCR0 = l+67;
+		servoSetRound = 10;
+	} else {
+		OCR0 = l - 189;
+		servoSetRound = 9;
+	}
 }

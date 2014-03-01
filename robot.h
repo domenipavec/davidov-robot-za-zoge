@@ -95,15 +95,18 @@ extern avr_cpp_lib::LCDS lcd;
 #define LCD_PREMAKNI_DESNO() lcd.command(avr_cpp_lib::LCDS::DISPLAY_RIGHT)
 #define LCD_PREMAKNI_LEVO() lcd.command(avr_cpp_lib::LCDS::DISPLAY_LEFT)
 
-#define ADC0 0b0
-#define ADC1 0b1
-#define ADC2 0b10
-#define ADC3 0b11
-#define ADC4 0b100
-#define ADC5 0b101
-#define ADC6 0b110
-#define ADC7 0b111
+#define ADC7 0b0
+#define ADC6 0b1
+#define ADC5 0b10
+#define ADC4 0b11
+#define ADC3 0b100
+#define ADC2 0b101
+#define ADC1 0b110
+#define ADC0 0b111
 
 uint8_t preberiADC(uint8_t adc);
+
+void nastaviServo(const uint8_t port);
+void lokacijaServo(uint8_t l); // max 240
 
 #endif
