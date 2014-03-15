@@ -44,7 +44,7 @@ int main() {
 				if (postaja == 0) {
 					pavza(5000);
 					postaja = 1;
-				} else if (postaja = 1) {
+				} else if (postaja == 1) {
 					pavza(1000);
 					lokacijaServo(130);
 					pavza(2000);
@@ -57,6 +57,8 @@ int main() {
 				pavza(200);
 			}
 		}
+		
+		pavza(20);
 		
 		//LCD_DOMOV();
 		//LCD_STEVILKA(leviSenzor, 3);
