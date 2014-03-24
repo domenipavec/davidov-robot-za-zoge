@@ -25,11 +25,13 @@ int main() {
 			if (desniSenzor > MEJA) {
 				if (nacin != 0) {
 					motorPremik(MOTOR_0_NAZAJ | MOTOR_1_NAPREJ);
+					pavza(50);
 					nacin = 0;
 				}
 			} else {
 				if (nacin != 1) {
 					motorPremik(MOTOR_0_STOP | MOTOR_1_NAPREJ);
+					pavza(50);
 					nacin = 1;
 				}
 			}
@@ -37,12 +39,13 @@ int main() {
 			if (desniSenzor > MEJA) {
 				if (nacin != 2) {
 					motorPremik(MOTOR_0_NAZAJ | MOTOR_1_STOP);
+					pavza(50);
 					nacin = 2;
 				}
 			} else {
 				motorPremik(MOTOR_0_STOP | MOTOR_1_STOP);
 				if (postaja == 0) {
-					pavza(5000);
+					pavza(12000);
 					postaja = 1;
 				} else if (postaja == 1) {
 					pavza(1000);
@@ -58,7 +61,7 @@ int main() {
 			}
 		}
 		
-		pavza(20);
+		pavza(10);
 		
 		//LCD_DOMOV();
 		//LCD_STEVILKA(leviSenzor, 3);
