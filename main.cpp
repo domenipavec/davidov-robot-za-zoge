@@ -50,12 +50,12 @@ int main() {
 			} else {
 				motorPremik(MOTOR_0_STOP | MOTOR_1_STOP);
 				if (postaja == 0) {
-					pavza(12000);
+					pavza(5000);
 					postaja = 1;
 				} else if (postaja == 1) {
 					pavza(1000);
 					lokacijaServo(130);
-					pavza(2000);
+					pavza(1000);
 					lokacijaServo(0);
 					pavza(1000);
 					postaja = 0;
